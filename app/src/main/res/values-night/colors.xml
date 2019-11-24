@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    night colors-->
+
+    <color name="colorPrimary">#202D3A</color>
+    <color name="colorPrimaryVariant">#59A5DA</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#59A5DA</color>
+    <color name="colorSecondaryVariant">#59A5DA</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorError">#FFE46778</color>
+    <color name="colorOnError">#000000</color>
+    <color name="colorSurface">#FF1D2733</color>
+    <color name="colorOnSurface">#FFFFFF</color>
+    <color name="colorBackground">#FF1D2733</color>
+    <color name="colorOnBackground">#FFFFFF</color>
+
+
+    <color name="colorHeaderText">#DFFFFFFF</color>
+    <color name="colorMainTextInItem">#DFFFFFFF</color>
+    <color name="colorBodyTextInItem">#99FFFFFF</color>
+    <color name="colorOnAppBar">#CCFFFFFF</color>
+</resources>

@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Base application theme. -->
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="actionMenuTextColor">@color/colorOnSurface</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <style name="AppTheme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+
+    </style>
+
+
+    <style name="AppTheme.AvatarImgCard" parent="Widget.MaterialComponents.CardView">
+
+    </style>
+
+
+    <style name="AppTheme.HeaderTextView" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/colorHeaderText</item>
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+
+    <style name="AppTheme.NameInItem" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorMainTextInItem</item>
+    </style>
+
+    <style name="AppTheme.BodyInItem" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/colorBodyTextInItem</item>
+    </style>
+</resources>
