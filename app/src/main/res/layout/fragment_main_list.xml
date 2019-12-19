@@ -4,34 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:context=".MainActivity">
 
-    <include layout="@layout/content_main"/>
+    <include layout="@layout/content_main" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        style="AppTheme.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_add_white_24dp"
-        app:layout_anchor="@id/bottom_appbar"
         app:elevation="6dp"
-        style="AppTheme.FloatingActionButton"/>
+        app:layout_anchor="@id/bottom_appbar"
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_gravity="bottom"
-        android:theme="@style/AppTheme.AppBarOverlay"
+        android:minHeight="56dp"
 
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:fabAlignmentMode="center"
         app:fabCradleMargin="4dp"
         app:fabCradleRoundedCornerRadius="40dp"
         app:fabCradleVerticalOffset="9dp"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:fabAlignmentMode="center"/>
-
-
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

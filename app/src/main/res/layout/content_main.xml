@@ -9,33 +9,48 @@
     tools:showIn="@layout/fragment_main_list">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/header_main"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="64dp"
+        android:paddingStart="64dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="64dp"
         android:singleLine="true"
+
         android:text="@string/main_activity_header"
         android:textAlignment="textStart"
         android:textAppearance="@style/AppTheme.HeaderTextView"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    android:scrollbarSize="4dp"-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_birthday_list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/header_main">
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_birthday_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
+            android:background="?attr/colorSurface"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
+            android:overScrollMode="never"
+            android:paddingBottom="80dp"
+
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbarThumbVertical="@drawable/scroll_bar_drawable"
+            android:scrollbars="vertical" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

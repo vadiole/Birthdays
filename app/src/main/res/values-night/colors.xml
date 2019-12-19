@@ -2,7 +2,6 @@
 <resources>
 
     <!--    night colors-->
-
     <color name="colorPrimary">#202D3A</color>
     <color name="colorPrimaryVariant">#59A5DA</color>
     <color name="colorOnPrimary">#FFFFFF</color>
@@ -20,5 +19,18 @@
     <color name="colorHeaderText">#DFFFFFFF</color>
     <color name="colorMainTextInItem">#DFFFFFFF</color>
     <color name="colorBodyTextInItem">#99FFFFFF</color>
+    <color name="colorHeaderItem">#DFFFFFFF</color>
+
+    <color name="colorAppBar">#212D3B</color>
     <color name="colorOnAppBar">#CCFFFFFF</color>
+    <color name="colorOnNavBar">#5CFFFFFF</color>
+    <color name="colorScrollBar">#52000000</color>
+
+    <color name="colorDialogs">#212D3B</color>
+    <color name="colorListDivider">#FF08121C</color>
+
+    <color name="colorSplashBackground">#FF1D2733</color>
+    <color name="colorSplashScreenFab">#FF5EA8D6</color>
+    <color name="colorSplashScreenGradientStart">#1F000000</color>
+    <color name="colorSplashScreenGradientEnd">#00000000</color>
 </resources>

@@ -1,2 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <!--    App Bar-->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="actionMenuTextColor">@color/colorOnSurface</item>
+        <item name="android:backgroundTint">@color/colorAppBar</item>
+    </style>
+
+    <!--    Bottom Sheet-->
+    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+        <item name="materialButtonStyle">@style/TextButton.Dark</item>
+
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+        <item name="android:backgroundTint">@color/colorDialogs</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">8dp</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="TextButton.Dark" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
+        <item name="android:textColor">@color/alert_dialog_button_color_dark</item>
+    </style>
+
+    <!--    Alert Dialog-->
+    <style name="AppTheme.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceAlertDialog</item>
+        <item name="android:backgroundDimAmount">0.32</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="android:background">@color/colorDialogs</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="TextButton.Dark">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
+        <item name="android:textColor">@color/alert_dialog_button_color_dark</item>
+
+    </style>
+
+
+
+    <style name="CustomShapeAppearanceAlertDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">8dp</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeBottomRight">8dp</item>
+        <item name="cornerSizeBottomLeft">8dp</item>
+    </style>
+
+    <!--    Data Picker-->
+    <style name="AppTheme.MaterialDataPicker" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/colorSecondary</item>
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceAlertDialog</item>
+
+        <item name="android:windowElevation">0dp</item>
+        <item name="materialCalendarHeaderLayout">@style/MaterialDatePicker.HeaderLayout</item>
+        <item name="materialCalendarHeaderTitle">@style/MaterialDatePicker.HeaderTitle</item>
+        <item name="materialCalendarHeaderSelection">@style/MaterialDatePicker.HeaderSelection</item>
+        <item name="materialCalendarHeaderToggleButton">@style/MaterialDatePicker.HeaderToggleButton
+        </item>
+
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <style name="MaterialDatePicker.HeaderLayout" parent="Widget.MaterialComponents.MaterialCalendar.HeaderLayout">
+        <item name="android:background">@color/colorDialogs</item>
+    </style>
+
+    <style name="MaterialDatePicker.HeaderTitle" parent="@style/Widget.MaterialComponents.MaterialCalendar.HeaderTitle">
+        <item name="android:textColor">@color/colorHeaderText</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
+        <item name="autoSizeMinTextSize">4sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="MaterialDatePicker.HeaderSelection" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
+        <item name="android:textColor">@color/colorHeaderText</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+<style name="MaterialDatePicker.HeaderToggleButton" parent="Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton">
+        <item name="android:tint">@color/colorHeaderText</item>
+    </style>
+</resources>

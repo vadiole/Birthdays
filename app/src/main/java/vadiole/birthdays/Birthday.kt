@@ -1,5 +1,41 @@
 package vadiole.birthdays
 
-class Birthday(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import org.threeten.bp.LocalDate
+import org.threeten.bp.temporal.ChronoUnit
+
+@Entity
+data class Birthday(
     var name: String,
-    var dateOfBirthday : Long)
+    var birthdayDate: LocalDate,
+    var yearsOld: Int? = null
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Long? = null
+
+
+    var isArchived: Boolean = false
+    var phoneNumber: String? = null
+    var telegramLink: String? = null
+    var instagramLink: String? = null
+    var email: String? = null
+    var note: String? = null
+    var avatarPath: String? = null
+    var userTag: String? = null
+
+
+    companion object {
+        fun getYearsOld(birthday: Birthday): Int {
+            return getYearsOld(birthday.birthdayDate)
+        }
+
+        fun getYearsOld(dataOdBirthday: LocalDate): Int {
+            val dateNow = LocalDate.now()
+            val years = ChronoUnit.YEARS.between(dataOdBirthday, dateNow).toInt()
+            return if ((dataOdBirthday.dayOfMonth == dateNow.dayOfMonth) and (dataOdBirthday.monthValue == dateNow.monthValue)) years else years + 1
+        }
+    }
+}

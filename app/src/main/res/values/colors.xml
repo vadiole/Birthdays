@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--    day colors-->
     <color name="colorPrimary">#508099</color>
     <color name="colorPrimaryVariant">#40657B</color>
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorSecondary">#63ACD4</color>
-    <color name="colorSecondaryVariant">#63ACD4</color>
+    <color name="colorSecondaryVariant">#4287B8</color>
     <color name="colorOnSecondary">#FFFFFF</color>
     <color name="colorError">#D9364C</color>
     <color name="colorOnError">#FFFFFF</color>
@@ -17,10 +19,18 @@
     <color name="colorHeaderText">#DF000000</color>
     <color name="colorMainTextInItem">#DF000000</color>
     <color name="colorBodyTextInItem">#99000000</color>
+    <color name="colorHeaderItem">#DF000000</color>
+
+    <color name="colorAppBar">#FFF</color>
     <color name="colorOnAppBar">#CC000000</color>
+    <color name="colorOnNavBar">#5C000000</color>
+    <color name="colorScrollBar">#52688899</color>
 
+    <color name="colorDialogs">#FFF</color>
+    <color name="colorListDivider">#29000000</color>
 
-
-
-
+    <color name="colorSplashBackground">#FF1D2733</color>
+    <color name="colorSplashScreenFab">#FF5EA8D6</color>
+    <color name="colorSplashScreenGradientStart">#1F000000</color>
+    <color name="colorSplashScreenGradientEnd">#00000000</color>
 </resources>

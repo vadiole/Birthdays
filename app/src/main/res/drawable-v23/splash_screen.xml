@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorSplashBackground" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="56dp"
+        android:gravity="bottom|center_horizontal">
+        <shape android:shape="rectangle">
+            <size android:height="4dp" />
+            <gradient
+                android:angle="90"
+                android:endColor="@color/colorSplashScreenGradientEnd"
+                android:startColor="@color/colorSplashScreenGradientStart"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <item
+        android:width="118dp"
+        android:height="94dp"
+        android:gravity="bottom|center_horizontal">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorSplashBackground" />
+        </shape>
+    </item>
+
+    <item
+        android:width="118dp"
+        android:height="94dp"
+        android:gravity="bottom|center_horizontal">
+        <bitmap
+            android:antialias="true"
+            android:src="@drawable/splash_img" />
+    </item>
+
+
+    <item
+        android:bottom="37dp"
+        android:gravity="bottom|center_horizontal">
+        <shape android:shape="oval">
+            <size
+                android:width="56dp"
+                android:height="56dp" />
+            <solid android:color="@color/colorSplashScreenFab" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="63.9dp"
+        android:gravity="bottom|center_horizontal">
+        <shape android:shape="rectangle">
+            <size
+                android:width="14dp"
+                android:height="2.1dp" />
+            <solid android:color="@color/colorOnSecondary" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="58dp"
+        android:gravity="bottom|center_horizontal">
+        <shape android:shape="rectangle">
+            <size
+                android:width="2.03dp"
+                android:height="14dp" />
+            <solid android:color="@color/colorOnSecondary" />
+        </shape>
+    </item>
+
+</layer-list>
