@@ -1,8 +1,5 @@
 package vadiole.birthdays
 
-import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import org.threeten.bp.LocalDate
 
@@ -42,8 +39,5 @@ class BirthdayRepository(private val birthdayDao: BirthdayDao) {
         Birthday("Birthday", LocalDate.of(2005, 7, 5)),
         Birthday("Last Element", LocalDate.of(2006, 6, 17))
     )
-
-    fun getBirthdays() = list
-
 }
 

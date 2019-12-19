@@ -4,15 +4,14 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import org.threeten.bp.temporal.ChronoUnit
 import java.util.*
 
 class BirthdayViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val APP_PREFERENCES = "mysettings"
-
     private val repository: BirthdayRepository
     var allBirthdaysAndHeaders: LiveData<List<MainListDataItem>>
+
+    private val arrayOfMonth  = application.resources.getStringArray(R.array.months)
 
     init {
         val birthdayDao =
@@ -20,31 +19,11 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
         repository = BirthdayRepository(birthdayDao)
 
         val allBirthdays = repository.allBirthdays
-
         allBirthdaysAndHeaders =
-            Transformations.map(allBirthdays) { list -> getBirthdayItemsList(list) }
-
-
+            Transformations.map(allBirthdays) { list -> getMainMappedList(list) }
     }
 
-    fun insert(birthday: Birthday) = viewModelScope.launch {
-        repository.insert(birthday)
-    }
-
-    fun update(birthday: Birthday) = viewModelScope.launch {
-        repository.update(birthday)
-    }
-
-    fun delete(birthday: Birthday) = viewModelScope.launch {
-        repository.delete(birthday)
-    }
-
-    fun deleteAll() = viewModelScope.launch {
-        repository.deleteAll()
-
-    }
-
-    private fun getBirthdayItemsList(list: List<Birthday>): List<MainListDataItem> {
+    private fun getMainMappedList(list: List<Birthday>): List<MainListDataItem> {
         if (list.isNotEmpty()) {
             list.forEach {
                 it.yearsOld = Birthday.getYearsOld(it)
@@ -53,10 +32,14 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
             val newList: MutableList<MainListDataItem> =
                 list.map { bd -> MainListDataItem.BirthdayItem(bd) }
                     .toMutableList()
-            val newListHeaders: MutableList<MainListDataItem> = mutableListOf()
 
-            val positionNow = getNowBirthdayPosition(list)
+            val positionNow = getNextBirthdayPosition(list)
             Collections.rotate(newList, -positionNow)
+
+
+            //val newListHeaders: MutableList<MainListDataItem> = mutableListOf()
+
+
 
             return newList
         }
@@ -109,7 +92,8 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
  */
     }
 
-    private fun getNowBirthdayPosition(list: List<Birthday>): Int {
+    //position to rotate
+    private fun getNextBirthdayPosition(list: List<Birthday>): Int {
         var position = 0
         list.forEach {
             if (isBirthdayPast(it)) {
@@ -123,9 +107,22 @@ class BirthdayViewModel(application: Application) : AndroidViewModel(application
         return (birthday.birthdayDate.dayOfYear < LocalDate.now().dayOfYear)
     }
 
-//    private fun getYearsOld(birthday: Birthday): Int {
-//        val years = ChronoUnit.YEARS.between(birthday.birthdayDate, LocalDate.now()).toInt()
-//        return if ((birthday.birthdayDate.dayOfMonth == LocalDate.now().dayOfMonth) and (birthday.birthdayDate.monthValue == LocalDate.now().monthValue)) years else years + 1
-//    }
+
+    //repository methods
+    fun insert(birthday: Birthday) = viewModelScope.launch {
+        repository.insert(birthday)
+    }
+
+    fun update(birthday: Birthday) = viewModelScope.launch {
+        repository.update(birthday)
+    }
+
+    fun delete(birthday: Birthday) = viewModelScope.launch {
+        repository.delete(birthday)
+    }
+
+    fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
+    }
 
 }

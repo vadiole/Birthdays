@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), MainListFragment.OnFragmentInteraction
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
 
-        //      Set saved theme
+        //set saved theme
         if (App.currentNightMode != AppCompatDelegate.getDefaultNightMode()) {
             when (App.currentNightMode) {
                 AppCompatDelegate.MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
@@ -46,10 +46,9 @@ class MainActivity : AppCompatActivity(), MainListFragment.OnFragmentInteraction
                 add(R.id.root_container, mainListFragment)
             }
         }
-
     }
 
-    //      Emulate home button instead back (it closes the app)
+    //emulate home button instead back (it closes the app)
     override fun onBackPressed() {
         startActivity(intentHome)
     }

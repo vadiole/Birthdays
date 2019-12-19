@@ -38,16 +38,16 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_birthday_list"
+            android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
             android:background="?attr/colorSurface"
             android:clipToPadding="false"
             android:layoutAnimation="@anim/layout_animation_fall_down"
             android:overScrollMode="never"
-            android:paddingBottom="80dp"
+            android:paddingBottom="112dp"
 
             android:scrollbarStyle="insideOverlay"
             android:scrollbarThumbVertical="@drawable/scroll_bar_drawable"

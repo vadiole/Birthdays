@@ -31,42 +31,10 @@ import org.threeten.bp.LocalDate
 
 
 class MainListFragment : Fragment() {
-    private val maxData = LocalDate.of(
-        LocalDate.now().year,
-        LocalDate.now().month,
-        1
-    ).toEpochDay() * (1000 * 60 * 60 * 24)
-
     private var listener: OnFragmentInteractionListener? = null
 
     private val birthdayViewModel by lazy {
         ViewModelProviders.of(this).get(BirthdayViewModel::class.java)
-    }
-
-    private lateinit var snackbar: Snackbar
-    private lateinit var dialog: AlertDialog
-    private lateinit var birthdayBottomSheetDialog: BottomSheetDialog
-
-    private lateinit var menuBottomSheetDialog: BottomSheetDialog
-    private lateinit var divider: Drawable
-    private lateinit var dividerItemDecoration: DividerItemDecoration
-
-    //data picker
-    private val constraintsBuilder by lazy {
-        CalendarConstraints.Builder()
-            .setEnd(maxData)
-            .setValidator(MyDateValidator())
-//            .setOpenAt(maxData)
-    }
-    private val builder by lazy {
-        MaterialDatePicker.Builder.datePicker()
-            .setTitleText(R.string.selectDataOfBirthday)
-            .setTheme(R.style.AppTheme_MaterialDataPicker)
-            .setCalendarConstraints(constraintsBuilder.build())
-
-    }
-    private val picker by lazy {
-        builder.build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,61 +46,63 @@ class MainListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_main_list, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.fragment_main_list, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fun initViews() {
+            divider = ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!
+            dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayout.VERTICAL)
+            dividerItemDecoration.setDrawable(divider)
+
+            recycler_view.addItemDecoration(dividerItemDecoration)
+            recycler_view.layoutManager = LinearLayoutManager(activity)
+            recycler_view.adapter = adapter
+
+            initBirthdayBottomSheet()
+            initMenuBottomSheet()
+            initThemeDialog()
+            initSnackBar(view)
+        }
+
         val activity = (requireActivity() as AppCompatActivity)
         activity.setSupportActionBar(bottom_appbar)
 
-        val adapter = ListAdapter()
+        adapter = ListAdapter()
         birthdayViewModel.allBirthdaysAndHeaders.observe(this, Observer { birthdays ->
-            birthdays?.let { adapter.refreshBirthdays(it) }
+            birthdays?.let { fillAdapter(it) }
         })
 
-
-        divider = ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!
-        dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayout.VERTICAL)
-        dividerItemDecoration.setDrawable(divider)
-
-        main_birthday_list.addItemDecoration(dividerItemDecoration)
-        main_birthday_list.layoutManager = LinearLayoutManager(activity)
-        main_birthday_list.adapter = adapter
-
-
-
+        initViews()
 
         setFabListeners()
         setHeaderClickListener()
-setRefreshListener()
-
-        initBirthdayBottomSheet()
-        initMenuBottomSheet()
-        initDialog()
-        initSnackBar(view)
+        setRefreshListener()
     }
 
-    private fun setRefreshListener() {
-        swipe_container.setOnRefreshListener {
-            val handler = Handler(Looper.getMainLooper())
-            val runnable = Runnable {
-                swipe_container.isRefreshing = false
-            }
-
-            handler.postDelayed(runnable, 1000)
-        }
+    private fun fillAdapter(newList: List<MainListDataItem>) {
+        adapter.itemList = newList
     }
 
+    //listeners
     private fun setFabListeners() {
+        //short click
         fab.setOnClickListener {
             if (!birthdayBottomSheetDialog.isShowing) {
                 birthdayBottomSheetDialog.show()
             }
         }
 
-//        Long Click
+        //long click
         fab.setOnLongClickListener {
             for (i in 1..12) {
-                birthdayViewModel.insert(Birthday("Test Birthday $i", LocalDate.of(2000, i, i * 2)))
+                birthdayViewModel.insert(
+                    Birthday(
+                        "Test Birthday $i",
+                        LocalDate.of(2000, i % 11 + 1, (i * 2) % 28 + 1)
+                    )
+                )
             }
             true
         }
@@ -140,18 +110,31 @@ setRefreshListener()
 
     private fun setHeaderClickListener() {
         header_main.setOnClickListener {
-            main_birthday_list.smoothScrollToPosition(0)
+            recycler_view.smoothScrollToPosition(0)
         }
     }
 
+    private fun setRefreshListener() {
+        swipe_container.setOnRefreshListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                swipe_container.isRefreshing = false
+            }, 1000)
+        }
+    }
+
+
+    //new birthday bottom sheet
     private fun initBirthdayBottomSheet() {
         birthdayBottomSheetDialog = BottomSheetDialog(requireContext())
         birthdayBottomSheetDialog.setContentView(R.layout.fragment_birthday_bottom_sheet)
-        var selectedDate: LocalDate = LocalDate.MIN
 
-        val editText = birthdayBottomSheetDialog.findViewById<TextInputEditText>(R.id.input_name)
+        var selectedDate: LocalDate = LocalDate.MIN
+        val editText =
+            birthdayBottomSheetDialog.findViewById<TextInputEditText>(R.id.input_name)
         val btnSelectDate =
             birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.select_date_btn)
+        val btnSave =
+            birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.save_btn)
 
         btnSelectDate?.setOnClickListener {
             fragmentManager?.let { it1 ->
@@ -161,21 +144,22 @@ setRefreshListener()
             }
         }
 
+        btnSave?.setOnClickListener {
+            val name: String = editText?.text.toString().trim()
+
+            if (checkIsDataValid(name, selectedDate)) {
+                val birthday = Birthday(name, selectedDate, Birthday.getYearsOld(selectedDate))
+                birthdayViewModel.insert(birthday)
+
+                birthdayBottomSheetDialog.dismiss()
+            }
+        }
+
         picker.addOnPositiveButtonClickListener { selected ->
             selectedDate = LocalDate.ofEpochDay(selected / (1000 * 60 * 60 * 24))
             btnSelectDate?.text = selectedDate.toString()
         }
 
-        birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.save_btn)
-            ?.setOnClickListener {
-                val name: String = editText?.text.toString().trim()
-
-                if (checkIsDataValid(name, selectedDate)) {
-                    val birthday = Birthday(name, selectedDate, Birthday.getYearsOld(selectedDate))
-                    birthdayViewModel.insert(birthday)
-                    birthdayBottomSheetDialog.dismiss()
-                }
-            }
 
         birthdayBottomSheetDialog.setOnShowListener {
             setAppbarVisible(false)
@@ -192,6 +176,22 @@ setRefreshListener()
         }
     }
 
+    private fun checkIsDataValid(name: String, date: LocalDate): Boolean {
+        return date != LocalDate.MIN && name.isNotBlank()
+    }
+
+    private fun setAppbarVisible(visible: Boolean) {
+        if (visible) {
+            bottom_appbar.visibility = View.VISIBLE
+            fab.show()
+        } else {
+            bottom_appbar.visibility = View.INVISIBLE
+            fab.hide()
+        }
+    }
+
+
+    //right menu bottom sheet
     private fun initMenuBottomSheet() {
         menuBottomSheetDialog = BottomSheetDialog(requireContext())
         menuBottomSheetDialog.setContentView(R.layout.fragment_menu_bottom_sheet)
@@ -211,50 +211,57 @@ setRefreshListener()
             }
     }
 
+    private fun showChooseThemeDialog() {
+        if (!themeDialog.isShowing) {
 
+            themeDialog.show()
+
+            when (App.currentNightMode) {
+                AppCompatDelegate.MODE_NIGHT_NO -> themeDialog.findViewById<RadioButton>(R.id.radio_btn_light)
+                    ?.isChecked = true
+                AppCompatDelegate.MODE_NIGHT_YES -> themeDialog.findViewById<RadioButton>(R.id.radio_btn_dark)
+                    ?.isChecked = true
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> themeDialog.findViewById<RadioButton>(
+                    R.id.radio_btn_follow_system
+                )
+                    ?.isChecked = true
+            }
+
+            themeDialog.findViewById<FrameLayout>(R.id.item_follow_system)?.visibility =
+                (if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) View.GONE else View.VISIBLE)
+
+            themeDialog.findViewById<FrameLayout>(R.id.item_light)
+                ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_NO) }
+            themeDialog.findViewById<FrameLayout>(R.id.item_dark)
+                ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_YES) }
+            themeDialog.findViewById<FrameLayout>(R.id.item_follow_system)
+                ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) }
+        }
+    }
+
+    private fun applyNightMode(mode: Int) {
+        themeDialog.dismiss()
+        App.currentNightMode = mode
+        App.saveNightMode(mode)
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    //theme dialog
+    private fun initThemeDialog() {
+        themeDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(R.layout.choose_theme_dialog)
+            .setPositiveButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+    }
+
+    //snackbar
     private fun initSnackBar(view: View) {
         snackbar = Snackbar.make(view, "Simple snackbar", Snackbar.LENGTH_LONG)
             .setAnchorView(fab)
             .setAction("Action") {}
     }
 
-    private fun setAppbarVisible(b: Boolean) {
-        if (b) {
-            bottom_appbar.visibility = View.VISIBLE
-            fab.show()
-        } else {
-            bottom_appbar.visibility = View.INVISIBLE
-
-            fab.hide()
-        }
-    }
-
-    private fun checkIsDataValid(name: String, date: LocalDate): Boolean {
-        return date != LocalDate.MIN && name.isNotBlank()
-    }
-
-    private fun initDialog() {
-        dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(R.layout.choose_theme_dialog)
-            .setPositiveButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .create()
-    }
-
-    private fun addSnackBarListeners(materialCalendarPicker: MaterialDatePicker<*>) {
-        materialCalendarPicker.addOnPositiveButtonClickListener {
-            snackbar.setText(materialCalendarPicker.headerText)
-            snackbar.show()
-        }
-        materialCalendarPicker.addOnNegativeButtonClickListener {
-            snackbar.setText("нажата отмена")
-            snackbar.show()
-        }
-        materialCalendarPicker.addOnCancelListener {
-            snackbar.setText("отмена")
-            snackbar.show()
-        }
-    }
-
+    //option menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         inflater.inflate(R.menu.menu_main, menu)
@@ -290,37 +297,8 @@ setRefreshListener()
         }
     }
 
-    private fun showChooseThemeDialog() {
-        dialog.show()
 
-        when (App.currentNightMode) {
-            AppCompatDelegate.MODE_NIGHT_NO -> dialog.findViewById<RadioButton>(R.id.radio_btn_light)
-                ?.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_YES -> dialog.findViewById<RadioButton>(R.id.radio_btn_dark)
-                ?.isChecked = true
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> dialog.findViewById<RadioButton>(R.id.radio_btn_follow_system)
-                ?.isChecked = true
-        }
-
-        dialog.findViewById<FrameLayout>(R.id.item_follow_system)?.visibility =
-            (if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) View.GONE else View.VISIBLE)
-
-        dialog.findViewById<FrameLayout>(R.id.item_light)
-            ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_NO) }
-        dialog.findViewById<FrameLayout>(R.id.item_dark)
-            ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_YES) }
-        dialog.findViewById<FrameLayout>(R.id.item_follow_system)
-            ?.setOnClickListener { applyNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) }
-    }
-
-
-    private fun applyNightMode(mode: Int) {
-        dialog.dismiss()
-        App.currentNightMode = mode
-        App.saveNightMode(mode)
-        AppCompatDelegate.setDefaultNightMode(mode)
-    }
-
+    //lifecycle
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnFragmentInteractionListener) {
@@ -350,11 +328,42 @@ setRefreshListener()
         fun onFragmentInteraction(uri: Uri)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainListFragment().apply {
+//    companion object {
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            MainListFragment().apply {
+//
+//            }
+//    }
 
-            }
+    //views
+    private lateinit var adapter: ListAdapter
+    private lateinit var snackbar: Snackbar
+    private lateinit var themeDialog: AlertDialog
+    private lateinit var birthdayBottomSheetDialog: BottomSheetDialog
+    private lateinit var menuBottomSheetDialog: BottomSheetDialog
+
+    private lateinit var divider: Drawable
+    private lateinit var dividerItemDecoration: DividerItemDecoration
+
+    //data picker
+    private val constraintsBuilder by lazy {
+        CalendarConstraints.Builder()
+            .setEnd(maxData)
+            .setValidator(MyDateValidator())
+    }
+    private val builder by lazy {
+        MaterialDatePicker.Builder.datePicker()
+            .setTitleText(R.string.selectDataOfBirthday)
+            .setTheme(R.style.AppTheme_MaterialDataPicker)
+            .setCalendarConstraints(constraintsBuilder.build())
+
+    }
+    private val picker by lazy {
+        builder.build()
+    }
+    private val maxData by lazy {
+        LocalDate.of(LocalDate.now().year, LocalDate.now().month, 1)
+            .toEpochDay() * (1000 * 60 * 60 * 24)
     }
 }
