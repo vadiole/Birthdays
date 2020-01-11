@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Components styles-->
+
     <!--    App Bar-->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="actionMenuTextColor">@color/colorOnSurface</item>
         <item name="android:backgroundTint">@color/colorAppBar</item>
     </style>
 
-    <!--    Bottom Sheet-->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+
+    <!--    Bottom Sheet menu-->
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
         <item name="android:backgroundDimAmount">0.6</item>
@@ -58,62 +62,11 @@
         <item name="cornerSizeBottomLeft">8dp</item>
     </style>
 
-    <!--    Text Styles-->
-    <style name="AppTheme.HeaderTextView" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <!--        <item name="android:textColor">@color/colorHeaderText</item>-->
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-    </style>
-
-    <style name="AppTheme.NameInItem" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorMainTextInItem</item>
-    </style>
-
-    <style name="AppTheme.BodyInItem" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/colorBodyTextInItem</item>
-    </style>
-
-    <style name="AppTheme.NameMenuItem" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textColor">@color/colorMainTextInItem</item>
-    </style>
-
-    <style name="AppTheme.BodyMenuItem" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/colorBodyTextInItem</item>
-    </style>
-
-    <style name="AppTheme.AlertDialogTitle" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textColor">@color/colorHeaderText</item>
-    </style>
-
-    <style name="AppTheme.HeaderItem" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorHeaderItem</item>
-    </style>
-
-
-    <style name="AppTheme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-
-    <style name="AppTheme.AvatarImgCard" parent="Widget.MaterialComponents.CardView">
-
-    </style>
-
-    <style name="AppTheme.RadioButton" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
-        <item name="android:background">@null</item>
+    <!--    Radio button-->
+    <style name="AppTheme.RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
-    </style>
-
-    <style name="AppTheme.EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
+        <item name="android:background">@null</item>
     </style>
 
     <!--    Data Picker-->
@@ -123,7 +76,8 @@
 
         <item name="materialCalendarHeaderLayout">@style/MaterialDatePicker.HeaderLayout</item>
         <item name="materialCalendarHeaderTitle">@style/MaterialDatePicker.HeaderTitle</item>
-        <item name="materialCalendarHeaderSelection">@style/MaterialDatePicker.HeaderSelection</item>
+        <item name="materialCalendarHeaderSelection">@style/MaterialDatePicker.HeaderSelection
+        </item>
         <item name="materialCalendarHeaderToggleButton">@style/MaterialDatePicker.HeaderToggleButton
         </item>
 
@@ -135,7 +89,7 @@
     </style>
 
     <style name="MaterialDatePicker.HeaderTitle" parent="@style/Widget.MaterialComponents.MaterialCalendar.HeaderTitle">
-        <item name="android:textColor">@color/colorHeaderText</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="autoSizeMaxTextSize">20sp</item>
         <item name="autoSizeMinTextSize">4sp</item>
         <item name="android:textStyle">bold</item>
@@ -143,12 +97,66 @@
     </style>
 
     <style name="MaterialDatePicker.HeaderSelection" parent="Widget.MaterialComponents.MaterialCalendar.HeaderSelection">
-        <item name="android:textColor">@color/colorHeaderText</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:maxLines">2</item>
     </style>
 
     <style name="MaterialDatePicker.HeaderToggleButton" parent="Widget.MaterialComponents.MaterialCalendar.HeaderToggleButton">
-        <item name="android:tint">@color/colorHeaderText</item>
+        <item name="android:color">@color/colorSurface</item>
+    </style>
+
+
+    <!--Text Styles-->
+
+    <!--    Main fragment title-->
+    <style name="AppTheme.MainFragment.Title" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <!--    Recycler item -->
+    <style name="AppTheme.RecyclerItem.Header" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.RecyclerItem.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.RecyclerItem.Body" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <!--    Bottom sheet menu item-->
+    <style name="AppTheme.MenuItem.Title" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.MenuItem.Body" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <!--    Alert Dialog-->
+    <style name="AppTheme.AlertDialog.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <!--    Birthday fragment-->
+    <style name="AppTheme.BirthdayFragment.Name" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.BirthdayFragment.Date" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/textColorSecondary</item>
     </style>
 
 </resources>

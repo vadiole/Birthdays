@@ -4,5 +4,6 @@
         <attr name="colorScrollBar" format="reference" />
         <attr name="colorListDivider" format="reference" />
         <attr name="colorIconButton" format="reference" />
+        <attr name="colorDefaultAvatar" format="reference" />
     </declare-styleable>
 </resources>

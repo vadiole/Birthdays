@@ -15,11 +15,8 @@
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorOnBackground">#000000</color>
 
-
-    <color name="colorHeaderText">#DF000000</color>
-    <color name="colorMainTextInItem">#DF000000</color>
-    <color name="colorBodyTextInItem">#99000000</color>
-    <color name="colorHeaderItem">#DF000000</color>
+    <color name="textColorPrimary">#DE000000</color>
+    <color name="textColorSecondary">#99000000</color>
 
     <color name="colorAppBar">#FFF</color>
     <color name="colorOnAppBar">#CC000000</color>
@@ -33,4 +30,6 @@
     <color name="colorSplashScreenFab">#FF5EA8D6</color>
     <color name="colorSplashScreenGradientStart">#1F000000</color>
     <color name="colorSplashScreenGradientEnd">#00000000</color>
+
+    <color name="colorDefaultAvatar">#5C000000</color>
 </resources>
