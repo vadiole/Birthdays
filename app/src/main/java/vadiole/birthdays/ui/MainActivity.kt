@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity(),
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = Navigation.findNavController(this,
+        navController = Navigation.findNavController(
+            this,
             R.id.nav_host_fragment
         )
     }
@@ -81,7 +82,13 @@ class MainActivity : AppCompatActivity(),
                     "Navigate main_list -> birthday, but main_list isn't current fragment"
                 )
             }
-            Event.BackPressed -> onBackPressed()
+            Event.DelPressed -> {
+                onBackPressed()
+
+            }
+            Event.BackPressed -> {
+                onBackPressed()
+            }
         }
     }
 }

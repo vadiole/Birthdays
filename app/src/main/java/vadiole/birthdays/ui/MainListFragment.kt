@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -22,6 +24,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_main_list_content.*
@@ -33,7 +36,9 @@ import vadiole.birthdays.adapters.BirthdayViewHolder
 import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.models.MainListDataItem
 import vadiole.birthdays.utils.Event
+import vadiole.birthdays.utils.LogUtil
 import vadiole.birthdays.utils.MyDateValidator
+import java.lang.Exception
 import java.util.*
 import kotlin.random.Random
 
@@ -72,7 +77,8 @@ class MainListFragment : Fragment(),
         if (!isFullyCreated) {
             isFullyCreated = true
             fun initViews() {
-                divider = ContextCompat.getDrawable(requireContext(),
+                divider = ContextCompat.getDrawable(
+                    requireContext(),
                     R.drawable.divider
                 )!!
                 dividerItemDecoration =
@@ -88,7 +94,7 @@ class MainListFragment : Fragment(),
                 initBirthdayBottomSheet()
                 initMenuBottomSheet()
                 initThemeDialog()
-                initSnackBar(view)
+                initSnackBar(requireView())
             }
 
             val activity = (requireActivity() as AppCompatActivity)
@@ -98,6 +104,14 @@ class MainListFragment : Fragment(),
             birthdayViewModel.allBirthdaysAndHeaders.observe(this, Observer { birthdays ->
                 birthdays?.let {
                     fillAdapter(it)
+                }
+            })
+
+            birthdayViewModel.deletedItem.observe(this, Observer {
+                if (!Birthday.isNull(it)) {
+
+                    if (snackbar.isShown) snackbar.dismiss()
+                    snackbar.show()
                 }
             })
 
@@ -115,7 +129,7 @@ class MainListFragment : Fragment(),
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
         val item = adapter.itemList[position]
 
         if (item is MainListDataItem.BirthdayItem) {
@@ -142,12 +156,12 @@ class MainListFragment : Fragment(),
                         (UUID.randomUUID().toString()).filter { c -> c != '-' }.take(
                             random.nextInt(
                                 6,
-                                10
+                                12
                             )
-                        ) + "  " + (UUID.randomUUID().toString()).take(
+                        ) + "  " + (UUID.randomUUID().toString()).filter { c -> c != '-' }.take(
                             random.nextInt(
                                 8,
-                                15
+                                16
                             )
                         ),
                         LocalDate.of(
@@ -175,7 +189,6 @@ class MainListFragment : Fragment(),
             }, 1000)
         }
     }
-
 
     //new birthday bottom sheet
     private fun initBirthdayBottomSheet() {
@@ -248,7 +261,6 @@ class MainListFragment : Fragment(),
         }
     }
 
-
     //right menu bottom sheet
     private fun initMenuBottomSheet() {
         menuBottomSheetDialog = BottomSheetDialog(requireContext())
@@ -303,6 +315,7 @@ class MainListFragment : Fragment(),
 
     private fun applyNightMode(mode: Int) {
         themeDialog.dismiss()
+
         App.currentNightMode = mode
         App.saveNightMode(mode)
         AppCompatDelegate.setDefaultNightMode(mode)
@@ -318,9 +331,27 @@ class MainListFragment : Fragment(),
 
     //snackbar
     private fun initSnackBar(view: View) {
-        snackbar = Snackbar.make(view, "Simple snackbar", Snackbar.LENGTH_LONG)
+        snackbar = Snackbar.make(view, "Item was deleted", TIME_SNACKBAR_LENGTH)
             .setAnchorView(fab_new)
-            .setAction("Action") {}
+            .setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+            .setAction("Undo") {
+                try {
+                    birthdayViewModel.undoDelete()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    Log.d(LogUtil.UNDO_SNACKBAR, ": snackbar was dismissed by SWIPE")
+                    super.onDismissed(transientBottomBar, event)
+
+                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
+                        birthdayViewModel.setRecentlyDeletedItem(Birthday.getNull())
+                    }
+                }
+
+            })
     }
 
     //option menu
@@ -381,28 +412,19 @@ class MainListFragment : Fragment(),
         super.onResume()
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(event: Event)
     }
 
-//    companion object {
+    //    companion object {
 //        @JvmStatic
 //        fun newInstance(param1: String, param2: String) =
 //            MainListFragment().apply {
 //
 //            }
 //    }
+
+    private val TIME_SNACKBAR_LENGTH = 5000
 
     //views
     private lateinit var adapter: MainAdapter

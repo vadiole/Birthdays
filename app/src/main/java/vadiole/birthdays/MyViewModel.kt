@@ -1,14 +1,17 @@
 package vadiole.birthdays
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+
 import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.models.MainListDataItem
 import vadiole.birthdays.models.Month
 import vadiole.birthdays.repository.BirthdayRepository
 import vadiole.birthdays.repository.BirthdayRoomDatabase
+import vadiole.birthdays.utils.LogUtil
 import java.util.*
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,8 +21,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: BirthdayRepository
     var allBirthdaysAndHeaders: LiveData<List<MainListDataItem>>
     var selectedItem = MutableLiveData<Birthday>(
-        Birthday(" ", LocalDate.MIN)
+        Birthday.getNull()
     )
+
+    private var privateRecDelItem = MutableLiveData<Birthday>(Birthday.getNull())
+
+    var deletedItem: LiveData<Birthday> = privateRecDelItem
 
     private val MonthList: List<Month> =
         application.resources.getStringArray(R.array.months).map {
@@ -36,6 +43,8 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         val allBirthdays = repository.allBirthdays
         allBirthdaysAndHeaders =
             Transformations.map(allBirthdays) { list -> getMainMappedList(list) }
+
+
     }
 
     private fun getMainMappedList(list: List<Birthday>): List<MainListDataItem> {
@@ -75,10 +84,11 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                             repeatedMonth = -1
                             newListHeaders.add(
                                 MainListDataItem.HeaderItem(
-                                Month(
-                                    (MonthList[monthId - 1].name) + " ${LocalDate.now().year + 1}"
+                                    Month(
+                                        (MonthList[monthId - 1].name) + " ${LocalDate.now().year + 1}"
+                                    )
                                 )
-                            ))
+                            )
                         }
                     }
                     newListHeaders.add(item)
@@ -119,6 +129,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         selectedItem.value = birthday
     }
 
+    fun setRecentlyDeletedItem(birthday: Birthday) {
+        privateRecDelItem.value = birthday
+    }
+
     //repository methods
     fun insert(birthday: Birthday) = viewModelScope.launch {
         repository.insert(birthday)
@@ -130,10 +144,21 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     fun delete(birthday: Birthday) = viewModelScope.launch {
         repository.delete(birthday)
+        privateRecDelItem.value = birthday
+
     }
 
     fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    fun undoDelete() {
+        if ((privateRecDelItem.value != null) && (!Birthday.isNull(privateRecDelItem.value))) {
+            insert(privateRecDelItem.value!!)
+            privateRecDelItem.value = Birthday.getNull()
+        } else {
+            Log.e(LogUtil.UNDO_SNACKBAR, ": birthday == null")
+        }
     }
 
 }

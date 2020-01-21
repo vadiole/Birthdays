@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import org.threeten.bp.LocalDate
 import org.threeten.bp.temporal.ChronoUnit
+import java.lang.Exception
 
 @Entity
 data class Birthday(
@@ -38,11 +39,15 @@ data class Birthday(
             return if ((dataOdBirthday.dayOfMonth == dateNow.dayOfMonth) and (dataOdBirthday.monthValue == dateNow.monthValue)) years else years + 1
         }
 
-        fun isNull(birthday: Birthday): Boolean {
-            return birthday == Birthday(
-                " ",
-                LocalDate.MIN
-            )
+        fun isNull(birthday: Birthday?): Boolean {
+            return try {
+                birthday?.name.equals(getNull().name)
+                birthday?.birthdayDate == getNull().birthdayDate
+            } catch (e: Exception) {
+                true
+            }
         }
+
+        fun getNull() : Birthday = Birthday(" ", LocalDate.MIN)
     }
 }

@@ -46,7 +46,7 @@ class BirthdayFragment : Fragment() {
             date_birthday.text = b.birthdayDate.toString()
         }
 
-        birthdayViewModel.selectedItem.observe(this, Observer {
+        birthdayViewModel.selectedItem.observe(viewLifecycleOwner, Observer {
             birthday = it
             initViews(it)
         })
@@ -69,7 +69,7 @@ class BirthdayFragment : Fragment() {
         delete_btn.setOnClickListener {
             if (!Birthday.isNull(birthday)) {
                 birthdayViewModel.delete(birthday)
-                onButtonPressed(Event.BackPressed)
+                onButtonPressed(Event.DelPressed)
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
             }
