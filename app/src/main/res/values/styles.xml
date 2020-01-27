@@ -34,6 +34,20 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="AppTheme.ExtendedFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="backgroundTint">@color/colorButton</item>
+        <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="iconTint">@color/colorSecondary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
+    </style>
+
+    <style name="AppTheme.Fab" parent="Widget.MaterialComponents.FloatingActionButton">
+
+    </style>
+
     <style name="TextButton.Light" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
@@ -45,7 +59,6 @@
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceAlertDialog</item>
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
-
     </style>
 
     <style name="Alert.Button.Positive" parent="TextButton.Light">
@@ -108,17 +121,28 @@
 
     <!--Text Styles-->
 
-    <!--    Main fragment title-->
+    <!--    Main fragment -->
     <style name="AppTheme.MainFragment.Title" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
     </style>
+
+    <style name="AppTheme.MainFragment.PlaceholderTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.MainFragment.PlaceholderBody" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
 
     <!--    Recycler item -->
     <style name="AppTheme.RecyclerItem.Header" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
@@ -142,21 +166,27 @@
 
     <!--    Alert Dialog-->
     <style name="AppTheme.AlertDialog.Title" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
     <!--    Birthday fragment-->
-    <style name="AppTheme.BirthdayFragment.Name" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:textStyle">bold</item>
+    <style name="AppTheme.BirthdayFragment.Name" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <!--        <item name="android:textStyle">bold</item>-->
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
     <style name="AppTheme.BirthdayFragment.Date" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">@color/textColorSecondary</item>
     </style>
+
+
+    <style name="AppTheme.BirthdayFragment.HeaderDivider" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
 
 </resources>

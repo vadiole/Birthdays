@@ -2,6 +2,7 @@ package vadiole.birthdays
 
 import android.app.Application
 import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -11,6 +12,7 @@ import vadiole.birthdays.models.MainListDataItem
 import vadiole.birthdays.models.Month
 import vadiole.birthdays.repository.BirthdayRepository
 import vadiole.birthdays.repository.BirthdayRoomDatabase
+import vadiole.birthdays.utils.FragmentDestination
 import vadiole.birthdays.utils.LogUtil
 import java.util.*
 
@@ -24,15 +26,16 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         Birthday.getNull()
     )
 
+
+    var currentFragment : FragmentDestination? = null
+
     private var privateRecDelItem = MutableLiveData<Birthday>(Birthday.getNull())
 
     var deletedItem: LiveData<Birthday> = privateRecDelItem
 
     private val MonthList: List<Month> =
         application.resources.getStringArray(R.array.months).map {
-            Month(
-                it
-            )
+            Month(it)
         }
 
     init {

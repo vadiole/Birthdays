@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import vadiole.birthdays.*
 import vadiole.birthdays.utils.Event
+import vadiole.birthdays.utils.FragmentDestination
 
 
 class MainActivity : AppCompatActivity(),
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private val birthdayViewModel by lazy {
-        ViewModelProviders.of(this).get(MyViewModel::class.java)
+        ViewModelProvider(this).get(MyViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,13 +37,14 @@ class MainActivity : AppCompatActivity(),
             App.currentNightMode
         )
 
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         navController = Navigation.findNavController(
             this,
             R.id.nav_host_fragment
         )
+        navController.setGraph(R.navigation.nav_graph)
     }
 
     override fun onBackPressed() {
@@ -75,10 +77,11 @@ class MainActivity : AppCompatActivity(),
     override fun onFragmentInteraction(event: Event) {
         when (event) {
             Event.OpenBirthday -> {
-                if (navController.currentDestination?.id == R.id.mainListFragment)
+                if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is MainListFragment)
+//                if (birthdayViewModel.currentFragment == FragmentDestination.MainListFragment)
                     navController.navigate(R.id.action_mainListFragment_to_birthdayFragment)
                 else Log.e(
-                    localClassName,
+                    supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment.toString(),
                     "Navigate main_list -> birthday, but main_list isn't current fragment"
                 )
             }

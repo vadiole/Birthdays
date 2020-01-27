@@ -14,9 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -24,7 +23,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_main_list_content.*
@@ -36,6 +34,7 @@ import vadiole.birthdays.adapters.BirthdayViewHolder
 import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.models.MainListDataItem
 import vadiole.birthdays.utils.Event
+import vadiole.birthdays.utils.FragmentDestination
 import vadiole.birthdays.utils.LogUtil
 import vadiole.birthdays.utils.MyDateValidator
 import java.lang.Exception
@@ -48,7 +47,7 @@ class MainListFragment : Fragment(),
     private var listener: OnFragmentInteractionListener? = null
 
     private val birthdayViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(MyViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
     }
 
     private val random = Random(System.currentTimeMillis())
@@ -91,6 +90,7 @@ class MainListFragment : Fragment(),
                 recycler_view.adapter = adapter
                 recycler_view.setItemViewCacheSize(20)
 
+
                 initBirthdayBottomSheet()
                 initMenuBottomSheet()
                 initThemeDialog()
@@ -101,19 +101,7 @@ class MainListFragment : Fragment(),
             activity.setSupportActionBar(bottom_appbar)
 
             adapter = MainAdapter(this)
-            birthdayViewModel.allBirthdaysAndHeaders.observe(this, Observer { birthdays ->
-                birthdays?.let {
-                    fillAdapter(it)
-                }
-            })
 
-            birthdayViewModel.deletedItem.observe(this, Observer {
-                if (!Birthday.isNull(it)) {
-
-                    if (snackbar.isShown) snackbar.dismiss()
-                    snackbar.show()
-                }
-            })
 
             initViews()
 
@@ -122,22 +110,50 @@ class MainListFragment : Fragment(),
             setRefreshListener()
         }
         myView = requireView()
+
+        birthdayViewModel.allBirthdaysAndHeaders.observe(
+            viewLifecycleOwner,
+            Observer { birthdays ->
+                birthdays?.let {
+                    fillData(it)
+                }
+            })
+
+        birthdayViewModel.deletedItem.observe(viewLifecycleOwner, Observer {
+            if (!Birthday.isNull(it)) {
+
+                if (snackbar.isShown) snackbar.dismiss()
+                snackbar.show()
+            }
+        })
     }
 
-    private fun fillAdapter(newList: List<MainListDataItem>) {
+    private fun fillData(newList: List<MainListDataItem>) {
         adapter.itemList = newList
+
+        if (newList.isEmpty()) {
+//            recycler_view.visibility = View.INVISIBLE
+            empty_list_placeholder.visibility = View.VISIBLE
+//            anim_placeholder.playAnimation()
+        } else {
+//            recycler_view.visibility = View.VISIBLE
+            empty_list_placeholder.visibility = View.INVISIBLE
+//            anim_placeholder.pauseAnimation()
+        }
+
     }
 
     override fun onItemClick(position: Int) {
-        // Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
         val item = adapter.itemList[position]
 
         if (item is MainListDataItem.BirthdayItem) {
             birthdayViewModel.setSelectedItem(item.birthday)
             listener?.onFragmentInteraction(event = Event.OpenBirthday)
+        } else {
+            Log.e(LogUtil.OPEN_BIRTHDAY, ": item isn't BirthdayItem")
         }
     }
-
 
     //listeners
     private fun setFabListeners() {
@@ -204,7 +220,7 @@ class MainListFragment : Fragment(),
             birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.save_btn)
 
         btnSelectDate?.setOnClickListener {
-            fragmentManager?.let { it1 ->
+            parentFragmentManager?.let { it1 ->
                 if (!(picker.isResumed)) {
                     picker.show(it1, picker.toString())
                 }
@@ -230,7 +246,6 @@ class MainListFragment : Fragment(),
             selectedDate = LocalDate.ofEpochDay(selected / (1000 * 60 * 60 * 24))
             btnSelectDate?.text = selectedDate.toString()
         }
-
 
         birthdayBottomSheetDialog.setOnShowListener {
             setAppbarVisible(false)
@@ -393,17 +408,21 @@ class MainListFragment : Fragment(),
 
     //lifecycle
     override fun onAttach(context: Context) {
-        super.onAttach(context)
+        birthdayViewModel.currentFragment = FragmentDestination.MainListFragment
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+        super.onAttach(context)
+
     }
 
     override fun onDetach() {
-        super.onDetach()
+        birthdayViewModel.currentFragment = null
         listener = null
+        super.onDetach()
+
     }
 
     override fun onResume() {

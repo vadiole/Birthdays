@@ -1,5 +1,6 @@
 package vadiole.birthdays.ui
 
+import android.animation.AnimatorInflater
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -8,15 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.fragment_birthday_content.*
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_birthday.*
+import kotlinx.android.synthetic.main.fragment_birthday_content.*
 import org.threeten.bp.LocalDate
-import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.MyViewModel
-import vadiole.birthdays.utils.Event
 import vadiole.birthdays.R
+import vadiole.birthdays.models.Birthday
+import vadiole.birthdays.utils.Event
+import vadiole.birthdays.utils.FragmentDestination
 
 
 class BirthdayFragment : Fragment() {
@@ -24,7 +27,7 @@ class BirthdayFragment : Fragment() {
     var birthday = Birthday(" ", LocalDate.MIN)
 
     private val birthdayViewModel by lazy {
-        ViewModelProviders.of(requireActivity()).get(MyViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +66,7 @@ class BirthdayFragment : Fragment() {
             handler.postDelayed({
                 birthdayViewModel.transactionLocked = false
                 enableDisableView(view, true)
-            }, resources.getInteger(R.integer.nav_anim_time).toLong())
+            }, resources.getInteger(R.integer.nav_anim_duration).toLong())
         }
 
         delete_btn.setOnClickListener {
@@ -78,7 +81,29 @@ class BirthdayFragment : Fragment() {
         back_btn.setOnClickListener {
             onButtonPressed(Event.BackPressed)
         }
+
+        fab_edit.elevation = 0f
+        fab_edit.translationZ = 0f
+        fab_edit.stateListAnimator = null
+        fab_edit.animate()
+            .translationZ(
+                resources.getDimension(R.dimen.fab_normal_elevation)
+            )
+            .setInterpolator(object : LinearOutSlowInInterpolator() {})
+            .setStartDelay((resources.getInteger(R.integer.nav_anim_duration) * 0.75).toLong())
+            .setDuration(resources.getInteger(R.integer.button_fade_in_anim_duration).toLong())
+            .withLayer()
+            .withEndAction {
+                if (fab_edit != null) {
+                    fab_edit.stateListAnimator = AnimatorInflater.loadStateListAnimator(
+                        requireContext(),
+                        R.animator.extended_fab_state_list_animator
+                    )
+                }
+            }
+            .start()
     }
+
 
     private fun enableDisableView(view: View, enabled: Boolean) {
         view.isEnabled = enabled
@@ -94,17 +119,19 @@ class BirthdayFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
+        birthdayViewModel.currentFragment = FragmentDestination.BirthdayFragment
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
+        super.onAttach(context)
     }
 
     override fun onDetach() {
-        super.onDetach()
+        birthdayViewModel.currentFragment = null
         listener = null
+        super.onDetach()
     }
 
     interface OnFragmentInteractionListener {

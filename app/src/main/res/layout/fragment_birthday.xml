@@ -2,15 +2,15 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BirthdayFragment"
-    android:background="@color/colorSurface">
+    android:background="@color/colorSurface"
+    tools:context=".ui.BirthdayFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:clickable="true"
         android:focusable="true">
 
@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorSurface"
             android:orientation="horizontal"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,8 +31,8 @@
                 android:layout_height="56dp"
                 android:layout_weight="0"
                 android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/back_arrow_descr"
                 android:padding="16dp"
-
                 android:src="@drawable/ic_arrow_back_24dp" />
 
             <View
@@ -70,22 +71,30 @@
                 android:src="@drawable/ic_delete_24dp" />
         </LinearLayout>
 
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-        <include layout="@layout/fragment_birthday_content" />
+            <include layout="@layout/fragment_birthday_content" />
+<!--        </ScrollView>-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/fab_edit"
-            style="AppTheme.FloatingActionButton"
+            style="@style/AppTheme.ExtendedFab"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="36dp"
-            android:transitionName="@string/fab_transformation_name"
-
-            app:elevation="6dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:animateLayoutChanges="true"
+            android:enabled="true"
+            android:stateListAnimator="@animator/extended_fab_state_list_animator"
+            android:text="@string/edit_birthday"
+            app:cornerRadius="48dp"
+            app:icon="@drawable/ic_edit_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_edit_24dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

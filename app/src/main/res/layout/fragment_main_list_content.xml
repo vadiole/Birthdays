@@ -26,6 +26,7 @@
 
     <!--    android:scrollbarSize="4dp"-->
 
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
         android:layout_width="0dp"
@@ -36,21 +37,80 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header_main">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foregroundGravity="center">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:clipToPadding="false"
-            android:layoutAnimation="@anim/layout_animation_fall_down"
-            android:overScrollMode="never"
-            android:paddingBottom="112dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/empty_list_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
-            android:scrollbarStyle="insideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar_drawable"
-            android:scrollbars="vertical" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/anim_placeholder"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2"
+                    app:lottie_autoPlay="true"
+                    app:lottie_enableMergePathsForKitKatAndAbove="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/empty_list_animation"
+                    app:lottie_renderMode="hardware" />
+
+                <TextView
+                    android:id="@+id/tv_placeholder_title"
+                    style="@style/AppTheme.MainFragment.PlaceholderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/placeholder_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/anim_placeholder" />
+
+                <TextView
+                    android:id="@+id/tv_placeholder_body"
+                    style="@style/AppTheme.MainFragment.PlaceholderBody"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/placeholder_body"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_placeholder_title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
+                android:overScrollMode="never"
+                android:paddingBottom="112dp"
+
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbarThumbVertical="@drawable/scroll_bar_drawable"
+                android:scrollbars="vertical" />
+
+
+        </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

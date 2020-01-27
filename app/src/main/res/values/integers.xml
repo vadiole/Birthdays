@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="anim_duration_medium">200</integer>
-    <integer name="nav_anim_time">220</integer>
+    <integer name="list_enter_anim_duration">220</integer>
+    <integer name="nav_anim_duration">220</integer>
+    <integer name="button_fade_in_anim_duration">220</integer>
 </resources>

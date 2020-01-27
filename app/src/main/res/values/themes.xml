@@ -7,7 +7,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentNavigation" >true</item>
 
         <!-- colors -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -35,8 +35,10 @@
 
         <item name="android:statusBarColor">@color/colorSurface</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:navigationBarColor">@color/colorSurface</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+
+        <item name="android:navigationBarColor" tools:targetApi="o_mr1">@color/colorSurface</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:enforceNavigationBarContrast" tools:targetApi="q">true</item>
 
         <item name="android:windowBackground">@color/colorSurface</item>

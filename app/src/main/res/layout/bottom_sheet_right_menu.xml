@@ -38,6 +38,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="@dimen/margin_for_divider"
         android:background="?attr/colorListDivider" />
 
     <LinearLayout
@@ -72,6 +73,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="@dimen/margin_for_divider"
         android:background="?attr/colorListDivider" />
 
     <LinearLayout
@@ -111,7 +113,6 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/divider"
             android:layout_width="@dimen/divider_width"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
@@ -133,6 +134,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="@dimen/margin_for_divider"
         android:background="?attr/colorListDivider" />
 
     <LinearLayout
@@ -169,6 +171,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="64dp"
         android:background="?attr/colorListDivider" />
 
     <LinearLayout
@@ -202,7 +205,9 @@
 
     <View
         android:layout_width="match_parent"
+
         android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="64dp"
         android:background="?attr/colorListDivider" />
 
 

@@ -2,13 +2,13 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <alpha
-        android:duration="@integer/nav_anim_time"
+        android:duration="@integer/nav_anim_duration"
         android:fromAlpha="0.0"
         android:interpolator="@android:anim/decelerate_interpolator"
         android:toAlpha="1.0" />
 
     <scale
-        android:duration="@integer/nav_anim_time"
+        android:duration="@integer/nav_anim_duration"
         android:fromXScale="97%"
         android:fromYScale="97%"
         android:interpolator="@android:anim/decelerate_interpolator"

@@ -18,6 +18,9 @@
     <color name="textColorPrimary">#DEFFFFFF</color>
     <color name="textColorSecondary">#99FFFFFF</color>
 
+    <color name="colorButton">#212D3B</color>
+    <color name="colorIconOnSurface">#CCFFFFFF</color>
+
     <color name="colorAppBar">#212D3B</color>
     <color name="colorOnAppBar">#CCFFFFFF</color>
     <color name="colorOnNavBar">#5CFFFFFF</color>
