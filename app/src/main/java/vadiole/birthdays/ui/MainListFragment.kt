@@ -142,7 +142,7 @@ class MainListFragment : Fragment(),
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
         val item = adapter.itemList[position]
 
         if (item is MainListDataItem.BirthdayItem) {

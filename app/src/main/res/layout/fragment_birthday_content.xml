@@ -331,7 +331,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/note_item"
+        android:id="@+id/notes_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="-17dp"
@@ -390,7 +390,7 @@
         android:background="?attr/colorListDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_item" />
+        app:layout_constraintTop_toBottomOf="@+id/notes_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/gifts_item"

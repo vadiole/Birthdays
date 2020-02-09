@@ -1,7 +1,11 @@
 package vadiole.birthdays.ui
 
 import android.animation.AnimatorInflater
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -49,6 +53,56 @@ class BirthdayFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        fun phoneItemClick() {
+            val number = birthday.phoneNumber
+            val makeCall = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$number"))
+            startActivity(makeCall)
+        }
+
+        fun telegramItemClick() {
+            val telegramId = birthday.telegramLink
+            val telegram = Intent(
+                Intent.ACTION_VIEW, Uri.parse("https://telegram.me/$telegramId")
+            )
+            startActivity(telegram)
+        }
+
+        fun instagramItemClick() {
+            val instagramId = birthday.instagramLink
+            val instagram = Intent(
+                Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/$instagramId")
+            )
+            startActivity(instagram)
+        }
+
+        fun emailItemClick() {
+            val emailAddress = birthday.email
+            val email = Intent(Intent.ACTION_SENDTO)
+                .setData(Uri.parse("mailto:$emailAddress"))
+                .putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress.orEmpty()))
+            startActivity(Intent.createChooser(email, "Send email with:"))
+        }
+
+        fun notesItemClick() {
+            val notes = birthday.notes
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("Notes", "$notes")
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), getString(R.string.notes_copied), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        fun giftsItemClick() {
+            val gifts = birthday.gifts
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("Notes", "$gifts")
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), getString(R.string.gifts_copied), Toast.LENGTH_SHORT)
+                .show()
+        }
+
         fun initViews(b: Birthday) {
             //person data
             name_birthday.text = b.name
@@ -57,39 +111,44 @@ class BirthdayFragment : Fragment() {
             if (b.phoneNumber.isNullOrEmpty()) phone_item.visibility = View.GONE
             else {
                 phone_item.visibility = View.VISIBLE
+                phone_item.setOnClickListener { phoneItemClick() }
                 phone_number.text = b.phoneNumber
             }
 
             if (b.telegramLink.isNullOrEmpty()) telegram_item.visibility = View.GONE
             else {
                 telegram_item.visibility = View.VISIBLE
+                telegram_item.setOnClickListener { telegramItemClick() }
                 telegram.text = b.telegramLink
             }
 
             if (b.instagramLink.isNullOrEmpty()) instagram_item.visibility = View.GONE
             else {
                 instagram_item.visibility = View.VISIBLE
+                instagram_item.setOnClickListener { instagramItemClick() }
                 instagram.text = b.instagramLink
             }
 
             if (b.email.isNullOrEmpty()) email_item.visibility = View.GONE
             else {
                 email_item.visibility = View.VISIBLE
+                email_item.setOnClickListener { emailItemClick() }
                 email.text = b.email
             }
 
-            if (b.notes.isNullOrEmpty()) note_item.visibility = View.GONE
+            if (b.notes.isNullOrEmpty()) notes_item.visibility = View.GONE
             else {
-                note_item.visibility = View.VISIBLE
+                notes_item.visibility = View.VISIBLE
+                notes_item.setOnClickListener { notesItemClick() }
                 note.text = b.notes
             }
 
             if (b.gifts.isNullOrEmpty()) gifts_item.visibility = View.GONE
             else {
                 gifts_item.visibility = View.VISIBLE
+                gifts_item.setOnClickListener { giftsItemClick() }
                 gifts.text = b.gifts
             }
-
 
             //dividers
             divider_contacts.visibility = View.GONE
@@ -110,10 +169,10 @@ class BirthdayFragment : Fragment() {
             } else divider_email.visibility = View.GONE
 
             divider_notes.visibility = View.GONE
-            if (note_item.isVisible || gifts_item.isVisible)
+            if (notes_item.isVisible || gifts_item.isVisible)
                 divider_notes.visibility = View.VISIBLE
 
-            if (note_item.isVisible and gifts_item.isVisible) {
+            if (notes_item.isVisible and gifts_item.isVisible) {
                 divider_gifts.visibility = View.VISIBLE
             } else divider_gifts.visibility = View.GONE
         }
@@ -134,12 +193,12 @@ class BirthdayFragment : Fragment() {
         setListeners()
 
         birthdayViewModel.selectedItem.observe(viewLifecycleOwner, Observer {
-            //            if (Birthday.isNull(it)) {
-//                onButtonPressed(Event.BackPressed)
-//            } else {
-            birthday = it
-            initViews(it)
-            //}
+            if (Birthday.isNull(it)) {
+                onButtonPressed(Event.BackPressed)
+            } else {
+                birthday = it
+                initViews(it)
+            }
         })
         playFabEnterAnim()
     }
@@ -179,12 +238,10 @@ class BirthdayFragment : Fragment() {
             onButtonPressed(Event.BackPressed)
         }
 
-
         fab_edit.setOnClickListener {
             onButtonPressed(Event.OpenEditBirthday)
         }
     }
-
 
     private fun enableDisableView(view: View, enabled: Boolean) {
         view.isEnabled = enabled
@@ -218,9 +275,9 @@ class BirthdayFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() =
-            BirthdayFragment().apply {}
+//        @JvmStatic
+//        fun newInstance() =
+//            BirthdayFragment().apply {}
 
         var myView: View? = null
 

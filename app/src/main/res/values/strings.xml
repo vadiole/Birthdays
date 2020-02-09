@@ -72,4 +72,6 @@
     <string name="edit_email_hint">Email (optional)</string>
     <string name="edit_notes_hint">Notes (optional)</string>
     <string name="edit_gifts_hint">Gifts (optional)</string>
+    <string name="notes_copied">Notes was copied to clipboard</string>
+    <string name="gifts_copied">Gifts was copied to clipboard</string>
 </resources>
