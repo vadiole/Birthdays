@@ -43,7 +43,7 @@ class BirthdayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         if (myView == null) {
-            Log.d(LogUtil.MAIN_FRAGMENT, ": view reinflated")
+            Log.d(LogUtil.BIRTHDAY_FRAGMENT, ": view reinflated")
             myView = inflater.inflate(R.layout.fragment_birthday, container, false)
             isFullyCreated = false
         } else {
@@ -228,7 +228,7 @@ class BirthdayFragment : Fragment() {
         delete_btn.setOnClickListener {
             if (!Birthday.isNull(birthday)) {
                 birthdayViewModel.delete(birthday)
-                onButtonPressed(Event.DelPressed)
+                onButtonPressed(Event.DelBirthdayPressed)
             } else {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
             }
@@ -239,7 +239,7 @@ class BirthdayFragment : Fragment() {
         }
 
         fab_edit.setOnClickListener {
-            onButtonPressed(Event.OpenEditBirthday)
+            onButtonPressed(Event.OpenEditBirthdayFragment)
         }
     }
 

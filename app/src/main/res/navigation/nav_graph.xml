@@ -33,10 +33,24 @@
             app:popEnterAnim="@anim/nav_pop_enter"
             app:popExitAnim="@anim/nav_pop_exit"
             app:popUpTo="@+id/mainListFragment" />
+        <action
+            android:id="@+id/action_mainListFragment_to_helpFragment"
+            app:destination="@id/helpFragment"
+            app:enterAnim="@anim/nav_enter"
+            app:exitAnim="@anim/nav_exit"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_pop_enter"
+            app:popExitAnim="@anim/nav_pop_exit"
+            app:popUpTo="@id/mainListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editBirthdayFragment"
         android:name="vadiole.birthdays.ui.EditBirthdayFragment"
         android:label="edit_birthday_fragment"
         tools:layout="@layout/fragment_edit_birthday" />
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="vadiole.birthdays.ui.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/help_fragment" />
 </navigation>

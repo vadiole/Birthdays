@@ -3,13 +3,12 @@ package vadiole.birthdays.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.bottom_sheet_new_birthday.*
 import kotlinx.android.synthetic.main.fragment_edit_birthday.*
 import kotlinx.android.synthetic.main.fragment_edit_birthday_content.*
 import org.threeten.bp.LocalDate
@@ -18,7 +17,6 @@ import vadiole.birthdays.R
 import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.utils.Event
 import vadiole.birthdays.utils.LogUtil
-import java.lang.Exception
 
 
 class EditBirthdayFragment : Fragment() {
@@ -105,6 +103,7 @@ class EditBirthdayFragment : Fragment() {
         birthday?.instagramLink =
             edit_instagram.text.toString().trim().filterNot { c -> c == ' ' }
                 .substringAfterLast("com/")
+                .substringAfterLast("@")
         birthday?.email = edit_email.text.toString().trim().filterNot { c -> c == ' ' }
         birthday?.notes = edit_notes.text.toString().trim()
         birthday?.gifts = edit_gifts.text.toString().trim()

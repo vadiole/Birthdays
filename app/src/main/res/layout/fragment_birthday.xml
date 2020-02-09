@@ -17,7 +17,7 @@
 
 
         <LinearLayout
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_show"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorSurface"
@@ -35,7 +35,7 @@
                 android:background="?attr/actionBarItemBackground"
                 android:contentDescription="@string/back_arrow_descr"
                 android:padding="16dp"
-                android:src="@drawable/ic_arrow_back_24dp" />
+                android:src="@drawable/ic_arrow_back" />
 
             <View
                 android:layout_width="match_parent"
@@ -79,7 +79,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/toolbar_show">
 
             <include layout="@layout/fragment_birthday_content" />
         </ScrollView>

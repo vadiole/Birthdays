@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="vadiole.birthdays.ui.MainActivity">
+
+    <item
+        android:id="@+id/view_in_gplay"
+        android:orderInCategory="1"
+        android:title="@string/view_in_google_play_store"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/version_info"
+        android:orderInCategory="2"
+        android:title="@string/version_info"
+        app:showAsAction="never" />
+</menu>

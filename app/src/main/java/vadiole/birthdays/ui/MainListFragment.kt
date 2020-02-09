@@ -141,18 +141,6 @@ class MainListFragment : Fragment(),
             empty_list_placeholder.visibility = View.INVISIBLE
     }
 
-    override fun onItemClick(position: Int) {
-        // Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
-        val item = adapter.itemList[position]
-
-        if (item is MainListDataItem.BirthdayItem) {
-            birthdayViewModel.setSelectedItem(item.birthday)
-            listener?.onFragmentInteraction(event = Event.OpenBirthday)
-        } else {
-            Log.e(LogUtil.OPEN_BIRTHDAY, ": item isn't BirthdayItem")
-        }
-    }
-
     //listeners
     private fun setFabListeners() {
         //short click
@@ -219,8 +207,8 @@ class MainListFragment : Fragment(),
 
         btnSelectDate?.setOnClickListener {
             parentFragmentManager.let { it1 ->
-                if (!(picker.isResumed)) {
-                    picker.show(it1, picker.toString())
+                if (!(datePicker.isResumed)) {
+                    datePicker.show(it1, datePicker.toString())
                 }
             }
         }
@@ -240,7 +228,7 @@ class MainListFragment : Fragment(),
             }
         }
 
-        picker.addOnPositiveButtonClickListener { selected ->
+        datePicker.addOnPositiveButtonClickListener { selected ->
             selectedDate = LocalDate.ofEpochDay(selected / (1000 * 60 * 60 * 24))
             btnSelectDate?.text = selectedDate.toString()
         }
@@ -250,8 +238,8 @@ class MainListFragment : Fragment(),
         }
 
         birthdayBottomSheetDialog.setOnDismissListener {
-            if (picker.isVisible) {
-                picker.dismiss()
+            if (datePicker.isVisible) {
+                datePicker.dismiss()
             }
             setAppbarVisible(true)
             selectedDate = LocalDate.MIN
@@ -276,14 +264,71 @@ class MainListFragment : Fragment(),
 
     //right menu bottom sheet
     private fun initMenuBottomSheet() {
+
+        fun clickSortBy() {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.will_added_in_future),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        fun clickTheme() {
+            menuBottomSheetDialog.dismiss()
+            showChooseThemeDialog()
+        }
+
+        fun clickNotifications() {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.will_added_in_future),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        fun clickAdvancedSettings() {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.will_added_in_future),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        fun clickHelpAndFeedback() {
+            menuBottomSheetDialog.dismiss()
+            birthdayBottomSheetDialog.dismiss()
+            onButtonPressed(Event.OpenHelpFragment)
+        }
+
+        fun clickSupportDevelopment() {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.will_added_in_future),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+
         menuBottomSheetDialog = BottomSheetDialog(requireContext())
         menuBottomSheetDialog.setContentView(R.layout.bottom_sheet_right_menu)
 
+        menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_sort_by)
+            ?.setOnClickListener { clickSortBy() }
+
         menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_theme)
-            ?.setOnClickListener {
-                menuBottomSheetDialog.dismiss()
-                showChooseThemeDialog()
-            }
+            ?.setOnClickListener { clickTheme() }
+
+        menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_notifications)
+            ?.setOnClickListener { clickNotifications() }
+
+        menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_advanced_settings)
+            ?.setOnClickListener { clickAdvancedSettings() }
+
+        menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_help_and_feedback)
+            ?.setOnClickListener { clickHelpAndFeedback() }
+
+        menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_support_dev)
+            ?.setOnClickListener { clickSupportDevelopment() }
 
         menuBottomSheetDialog.findViewById<LinearLayout>(R.id.menu_advanced_settings)
             ?.setOnLongClickListener {
@@ -329,8 +374,10 @@ class MainListFragment : Fragment(),
     private fun applyNightMode(mode: Int) {
         themeDialog.dismiss()
 
+        //important
         BirthdayFragment.myView = null
         EditBirthdayFragment.myView = null
+        HelpFragment.myView = null
 
         App.currentNightMode = mode
         App.saveNightMode(mode)
@@ -425,6 +472,22 @@ class MainListFragment : Fragment(),
         super.onResume()
     }
 
+    private fun onButtonPressed(event: Event) {
+        listener?.onFragmentInteraction(event)
+    }
+
+    override fun onItemClick(position: Int) {
+        // Toast.makeText(context, "item $position clicked", Toast.LENGTH_SHORT).show()
+        val item = adapter.itemList[position]
+
+        if (item is MainListDataItem.BirthdayItem) {
+            birthdayViewModel.setSelectedItem(item.birthday)
+            listener?.onFragmentInteraction(Event.OpenBirthdayFragment)
+        } else {
+            Log.e(LogUtil.OPEN_BIRTHDAY, ": item isn't BirthdayItem")
+        }
+    }
+
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(event: Event)
     }
@@ -433,8 +496,6 @@ class MainListFragment : Fragment(),
 //        @JvmStatic
 //        fun newInstance() =
 //            MainListFragment().apply {}
-//
-//
 //    }
 
     private val TIME_SNACKBAR_LENGTH = 5000
@@ -462,7 +523,7 @@ class MainListFragment : Fragment(),
             .setCalendarConstraints(constraintsBuilder.build())
 
     }
-    private val picker by lazy {
+    private val datePicker by lazy {
         builder.build()
     }
     private val maxData by lazy {

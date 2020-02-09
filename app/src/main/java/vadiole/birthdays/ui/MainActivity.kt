@@ -9,14 +9,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import vadiole.birthdays.*
+import vadiole.birthdays.App
+import vadiole.birthdays.MyViewModel
+import vadiole.birthdays.R
 import vadiole.birthdays.utils.Event
 
 
 class MainActivity : AppCompatActivity(),
     MainListFragment.OnFragmentInteractionListener,
     BirthdayFragment.OnFragmentInteractionListener,
-    EditBirthdayFragment.OnFragmentInteractionListener {
+    EditBirthdayFragment.OnFragmentInteractionListener,
+    HelpFragment.OnFragmentInteractionListener {
 
     private lateinit var navController: NavController
     private val intentHome by lazy {
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onFragmentInteraction(event: Event) {
         when (event) {
-            Event.OpenBirthday -> {
+            Event.OpenBirthdayFragment -> {
                 if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is MainListFragment)
                     navController.navigate(R.id.action_mainListFragment_to_birthdayFragment)
                 else Log.e(
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity(),
                     "Navigate main_list -> birthday, but main_list isn't current fragment"
                 )
             }
-            Event.OpenEditBirthday -> {
+            Event.OpenEditBirthdayFragment -> {
                 if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is BirthdayFragment)
                     navController.navigate(R.id.action_birthdayFragment_to_edit_birthday_fragment)
                 else Log.e(
@@ -94,14 +97,21 @@ class MainActivity : AppCompatActivity(),
                     "Navigate birthday -> edit_birthday, but birthday isn't current fragment"
                 )
             }
-            Event.DelPressed -> {
+            Event.DelBirthdayPressed -> {
                 onBackPressed()
 
             }
             Event.BackPressed -> {
                 onBackPressed()
             }
-
+            Event.OpenHelpFragment -> {
+                if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is MainListFragment)
+                    navController.navigate(R.id.action_mainListFragment_to_helpFragment)
+                else Log.e(
+                    supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment.toString(),
+                    "Navigate MainFragment -> HelpFragment, but MainFragment isn't current fragment"
+                )
+            }
         }
     }
 
