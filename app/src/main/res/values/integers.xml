@@ -3,4 +3,6 @@
     <integer name="list_enter_anim_duration">220</integer>
     <integer name="nav_anim_duration">220</integer>
     <integer name="button_fade_in_anim_duration">220</integer>
+    <integer name="max_length">32</integer>
+    <integer name="max_lines">3</integer>
 </resources>

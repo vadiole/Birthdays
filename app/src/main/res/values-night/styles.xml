@@ -13,7 +13,7 @@
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
         <item name="android:backgroundDimAmount">0.32</item>
-        <item name="materialButtonStyle">@style/TextButton.Dark</item>
+        <item name="materialButtonStyle">@style/TextButton</item>
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
@@ -47,7 +47,7 @@
 
     </style>
 
-    <style name="TextButton.Dark" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
         <item name="android:textColor">@color/alert_dialog_button_color_dark</item>
@@ -61,7 +61,7 @@
         <item name="android:backgroundTint">@color/colorDialogs</item>
     </style>
 
-    <style name="Alert.Button.Positive" parent="TextButton.Dark">
+    <style name="Alert.Button.Positive" parent="TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
         <item name="android:textColor">@color/alert_dialog_button_color_dark</item>

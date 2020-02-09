@@ -25,19 +25,20 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.fragment_main_list_content.*
 import kotlinx.android.synthetic.main.fragment_main_list.*
+import kotlinx.android.synthetic.main.fragment_main_list_content.*
 import org.threeten.bp.LocalDate
-import vadiole.birthdays.*
-import vadiole.birthdays.adapters.MainAdapter
+import vadiole.birthdays.App
+import vadiole.birthdays.MyViewModel
+import vadiole.birthdays.R
 import vadiole.birthdays.adapters.BirthdayViewHolder
+import vadiole.birthdays.adapters.MainAdapter
 import vadiole.birthdays.models.Birthday
 import vadiole.birthdays.models.MainListDataItem
 import vadiole.birthdays.utils.Event
 import vadiole.birthdays.utils.FragmentDestination
 import vadiole.birthdays.utils.LogUtil
 import vadiole.birthdays.utils.MyDateValidator
-import java.lang.Exception
 import java.util.*
 import kotlin.random.Random
 
@@ -51,9 +52,8 @@ class MainListFragment : Fragment(),
     }
 
     private val random = Random(System.currentTimeMillis())
-
-    var myView: View? = null
-    var isFullyCreated = false
+    private var myView: View? = null
+    private var isFullyCreated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +66,11 @@ class MainListFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         if (myView == null) {
+            Log.d(LogUtil.MAIN_FRAGMENT, ": view reinflated")
             myView = inflater.inflate(R.layout.fragment_main_list, container, false)
             isFullyCreated = false
+        } else {
+            Log.d(LogUtil.MAIN_FRAGMENT, ": view restored")
         }
         return myView
     }
@@ -108,6 +111,7 @@ class MainListFragment : Fragment(),
             setFabListeners()
             setHeaderClickListener()
             setRefreshListener()
+
         }
         myView = requireView()
 
@@ -119,28 +123,22 @@ class MainListFragment : Fragment(),
                 }
             })
 
-        birthdayViewModel.deletedItem.observe(viewLifecycleOwner, Observer {
-            if (!Birthday.isNull(it)) {
-
-                if (snackbar.isShown) snackbar.dismiss()
-                snackbar.show()
-            }
-        })
+        birthdayViewModel.deletedItem.observe(
+            viewLifecycleOwner,
+            Observer {
+                if (!Birthday.isNull(it)) {
+                    snackbar.show()
+                }
+            })
     }
 
     private fun fillData(newList: List<MainListDataItem>) {
         adapter.itemList = newList
 
-        if (newList.isEmpty()) {
-//            recycler_view.visibility = View.INVISIBLE
+        if (newList.isEmpty())
             empty_list_placeholder.visibility = View.VISIBLE
-//            anim_placeholder.playAnimation()
-        } else {
-//            recycler_view.visibility = View.VISIBLE
+        else
             empty_list_placeholder.visibility = View.INVISIBLE
-//            anim_placeholder.pauseAnimation()
-        }
-
     }
 
     override fun onItemClick(position: Int) {
@@ -217,10 +215,10 @@ class MainListFragment : Fragment(),
         val btnSelectDate =
             birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.select_date_btn)
         val btnSave =
-            birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.save_btn)
+            birthdayBottomSheetDialog.findViewById<MaterialButton>(R.id.save_new_birthday_btn)
 
         btnSelectDate?.setOnClickListener {
-            parentFragmentManager?.let { it1 ->
+            parentFragmentManager.let { it1 ->
                 if (!(picker.isResumed)) {
                     picker.show(it1, picker.toString())
                 }
@@ -331,6 +329,9 @@ class MainListFragment : Fragment(),
     private fun applyNightMode(mode: Int) {
         themeDialog.dismiss()
 
+        BirthdayFragment.myView = null
+        EditBirthdayFragment.myView = null
+
         App.currentNightMode = mode
         App.saveNightMode(mode)
         AppCompatDelegate.setDefaultNightMode(mode)
@@ -361,11 +362,10 @@ class MainListFragment : Fragment(),
                     Log.d(LogUtil.UNDO_SNACKBAR, ": snackbar was dismissed by SWIPE")
                     super.onDismissed(transientBottomBar, event)
 
-                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION) {
+                    if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT) {
                         birthdayViewModel.setRecentlyDeletedItem(Birthday.getNull())
                     }
                 }
-
             })
     }
 
@@ -396,8 +396,6 @@ class MainListFragment : Fragment(),
                         )
                             ?.text = getString(R.string.follow_system)
                     }
-
-                    menuBottomSheetDialog.findViewById<TextView>(R.id.selected_theme)?.text
                 }
                 return true
             }
@@ -409,20 +407,16 @@ class MainListFragment : Fragment(),
     //lifecycle
     override fun onAttach(context: Context) {
         birthdayViewModel.currentFragment = FragmentDestination.MainListFragment
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) listener = context
+        else throw RuntimeException("$context must implement OnFragmentInteractionListener")
 
+        super.onAttach(context)
     }
 
     override fun onDetach() {
         birthdayViewModel.currentFragment = null
         listener = null
         super.onDetach()
-
     }
 
     override fun onResume() {
@@ -435,12 +429,12 @@ class MainListFragment : Fragment(),
         fun onFragmentInteraction(event: Event)
     }
 
-    //    companion object {
+//    companion object {
 //        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            MainListFragment().apply {
+//        fun newInstance() =
+//            MainListFragment().apply {}
 //
-//            }
+//
 //    }
 
     private val TIME_SNACKBAR_LENGTH = 5000

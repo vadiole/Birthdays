@@ -5,127 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.BirthdayFragment"
+    tools:context=".ui.MainActivity"
     tools:showIn="@layout/fragment_birthday">
 
-    <TextView
-        android:id="@+id/name_birthday"
-        style="@style/AppTheme.BirthdayFragment.Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/date_birthday"
-        style="@style/AppTheme.BirthdayFragment.Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="date "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_birthday" />
-
-    <!--    <include-->
-    <!--        layout="@layout/header_divider"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/date_birthday" />-->
-
-    <LinearLayout
-        android:id="@+id/contacts_divider"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_info_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="-16dp"
-        android:clipToPadding="false"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_birthday">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <View
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="0dp"
+            app:cardCornerRadius="@dimen/edit_avatar_radius"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/default_avatar" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/name_birthday"
+            style="@style/AppTheme.BirthdayFragment.Name"
             android:layout_width="0dp"
-            android:layout_height="@dimen/divider_width"
-            android:layout_weight="1"
-            android:background="?attr/colorListDivider" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Name"
+            app:autoSizeMinTextSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/date_birthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/header_contacts"-->
-        <!--            style="@style/AppTheme.BirthdayFragment.HeaderDivider"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_weight="0"-->
-        <!--            android:paddingStart="8dp"-->
-        <!--            android:paddingEnd="8dp"-->
-        <!--            android:text="Contacts"-->
-        <!--            android:textAlignment="center" />-->
+        <TextView
+            android:id="@+id/date_birthday"
+            style="@style/AppTheme.BirthdayFragment.Date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="date "
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/name_birthday" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--        <View-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="@dimen/divider_width"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:background="?attr/colorListDivider" />-->
-    </LinearLayout>
+    <View
+        android:id="@+id/divider_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_width"
+        android:layout_marginEnd="-16dp"
+        android:background="?attr/colorListDivider"
 
-
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:id="@+id/phone_item"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="-17dp"-->
-<!--            android:layout_marginTop="0dp"-->
-<!--            android:layout_marginEnd="-16dp"-->
-<!--            android:background="?attr/selectableItemBackground"-->
-<!--            android:clickable="true"-->
-<!--            android:focusable="true"-->
-<!--            android:paddingStart="16dp"-->
-<!--            android:paddingTop="16dp"-->
-<!--            android:paddingEnd="16dp"-->
-<!--            android:paddingBottom="16dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/contacts_header">-->
-
-<!--            <androidx.appcompat.widget.AppCompatImageView-->
-<!--                android:id="@+id/imageView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:srcCompat="@drawable/ic_phone_24px" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/phone_number"-->
-<!--                style="@style/AppTheme.RecyclerItem.Title"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:text="+380 66 6543210"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/phone_numper_descr"-->
-<!--                style="@style/AppTheme.RecyclerItem.Body"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="16dp"-->
-<!--                android:text="@string/phone_description"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/phone_number"-->
-<!--                app:layout_constraintVertical_bias="0.0" />-->
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_info_container" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/phone_item"
@@ -141,9 +88,10 @@
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
         android:paddingBottom="16dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contacts_divider">
+        app:layout_constraintTop_toBottomOf="@+id/divider_contacts">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView"
@@ -182,14 +130,15 @@
 
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/divider_telegram"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="-16dp"
         android:background="?attr/colorListDivider"
-        app:layout_constraintTop_toBottomOf="@+id/phone_item"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/telegram_item"
@@ -206,7 +155,7 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2">
+        app:layout_constraintTop_toBottomOf="@+id/divider_telegram">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/telegram_icon"
@@ -244,7 +193,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/divider_instagram"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
         android:layout_marginStart="40dp"
@@ -253,6 +202,69 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/telegram_item" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/instagram_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-17dp"
+        android:layout_marginEnd="-16dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="15dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_instagram">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/instagram_icon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_instagram" />
+
+
+        <TextView
+            android:id="@+id/instagram"
+            style="@style/AppTheme.RecyclerItem.Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="instagram.com/vadiole"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/instagram_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/inst_descr"
+            style="@style/AppTheme.RecyclerItem.Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/instagram_descr"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/instagram_icon"
+            app:layout_constraintTop_toBottomOf="@+id/instagram" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_width"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="-16dp"
+        android:background="?attr/colorListDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instagram_item" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -270,13 +282,12 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintTop_toBottomOf="@+id/divider_email">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/email_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -299,7 +310,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/email_description"
+            android:text="@string/email_descr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/email_icon"
@@ -307,80 +318,16 @@
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <View
-        android:id="@+id/view3"
+        android:id="@+id/divider_notes"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
-        android:layout_marginStart="40dp"
         android:layout_marginEnd="-16dp"
         android:background="?attr/colorListDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_item" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/instagram_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-17dp"
-        android:layout_marginEnd="-16dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/instagram_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_email_24px" />
-
-        <TextView
-            android:id="@+id/instagram"
-            style="@style/AppTheme.RecyclerItem.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="instagram.com/vadiole"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/instagram_icon"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/instagram_descr"
-            style="@style/AppTheme.RecyclerItem.Body"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/instagram_descr"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/instagram_icon"
-            app:layout_constraintTop_toBottomOf="@+id/instagram"
-            app:layout_constraintVertical_bias="0.0" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <View
-        android:id="@+id/note_divider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_width"
-        android:layout_marginEnd="-16dp"
-        android:background="?attr/colorListDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instagram_item" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -398,17 +345,16 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note_divider">
+        app:layout_constraintTop_toBottomOf="@+id/divider_notes">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/note_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_email_24px" />
+            app:srcCompat="@drawable/ic_notes" />
 
         <TextView
             android:id="@+id/note"
@@ -436,7 +382,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/divider_gifts"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_width"
         android:layout_marginStart="40dp"
@@ -447,7 +393,7 @@
         app:layout_constraintTop_toBottomOf="@+id/note_item" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/presents_item"
+        android:id="@+id/gifts_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="-17dp"
@@ -461,30 +407,29 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4">
+        app:layout_constraintTop_toBottomOf="@+id/divider_gifts">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/presents_icon"
+            android:id="@+id/gifts_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_email_24px" />
+            app:srcCompat="@drawable/ic_gift" />
 
         <TextView
-            android:id="@+id/presents"
+            android:id="@+id/gifts"
             style="@style/AppTheme.RecyclerItem.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="First present \nSecond present \nThird present"
-            app:layout_constraintStart_toEndOf="@+id/presents_icon"
+            android:text="First gift \nSecond gift \nThird gift"
+            app:layout_constraintStart_toEndOf="@+id/gifts_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/presents_descr"
+            android:id="@+id/gifts_descr"
             style="@style/AppTheme.RecyclerItem.Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -492,8 +437,8 @@
             android:text="@string/presents"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/presents_icon"
-            app:layout_constraintTop_toBottomOf="@+id/presents" />
+            app:layout_constraintStart_toEndOf="@+id/gifts_icon"
+            app:layout_constraintTop_toBottomOf="@+id/gifts" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

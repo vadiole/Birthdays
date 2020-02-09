@@ -11,12 +11,12 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import vadiole.birthdays.*
 import vadiole.birthdays.utils.Event
-import vadiole.birthdays.utils.FragmentDestination
 
 
 class MainActivity : AppCompatActivity(),
     MainListFragment.OnFragmentInteractionListener,
-    BirthdayFragment.OnFragmentInteractionListener {
+    BirthdayFragment.OnFragmentInteractionListener,
+    EditBirthdayFragment.OnFragmentInteractionListener {
 
     private lateinit var navController: NavController
     private val intentHome by lazy {
@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity(),
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
         navController = Navigation.findNavController(
             this,
@@ -78,11 +80,18 @@ class MainActivity : AppCompatActivity(),
         when (event) {
             Event.OpenBirthday -> {
                 if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is MainListFragment)
-//                if (birthdayViewModel.currentFragment == FragmentDestination.MainListFragment)
                     navController.navigate(R.id.action_mainListFragment_to_birthdayFragment)
                 else Log.e(
                     supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment.toString(),
                     "Navigate main_list -> birthday, but main_list isn't current fragment"
+                )
+            }
+            Event.OpenEditBirthday -> {
+                if (supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment is BirthdayFragment)
+                    navController.navigate(R.id.action_birthdayFragment_to_edit_birthday_fragment)
+                else Log.e(
+                    supportFragmentManager.primaryNavigationFragment?.childFragmentManager?.primaryNavigationFragment.toString(),
+                    "Navigate birthday -> edit_birthday, but birthday isn't current fragment"
                 )
             }
             Event.DelPressed -> {
@@ -92,6 +101,9 @@ class MainActivity : AppCompatActivity(),
             Event.BackPressed -> {
                 onBackPressed()
             }
+
         }
     }
+
+
 }

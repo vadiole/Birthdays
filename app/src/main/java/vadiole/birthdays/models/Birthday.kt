@@ -15,16 +15,17 @@ data class Birthday(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null
 
-
     var isArchived: Boolean = false
+
+    var avatarPath: String? = null
+    var userTag: String? = null
+
     var phoneNumber: String? = null
     var telegramLink: String? = null
     var instagramLink: String? = null
     var email: String? = null
-    var note: String? = null
-    var avatarPath: String? = null
-    var userTag: String? = null
-
+    var notes: String? = null
+    var gifts: String? = null
 
     companion object {
         fun getYearsOld(birthday: Birthday): Int {

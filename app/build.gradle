@@ -6,6 +6,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    kotlinOptions {
+        jvmTarget = jvm_version
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -13,9 +16,10 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 3
-        versionName "0.3"
+        versionName "0.2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -33,7 +37,7 @@ android {
 }
 
 dependencies {
-    def nav_version = "2.1.0"
+    def nav_version = '2.2.1'
     def room_version = "2.2.3"
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.2'
@@ -69,8 +73,8 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
-    implementation "androidx.core:core-ktx:1.1.0"
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha02'
+    implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     testImplementation 'junit:junit:4.13'

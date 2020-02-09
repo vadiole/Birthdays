@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--Components styles-->
 
@@ -15,7 +15,7 @@
     <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
         <item name="android:backgroundDimAmount">0.6</item>
-        <item name="materialButtonStyle">@style/TextButton.Light</item>
+        <item name="materialButtonStyle">@style/TextButton</item>
 
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
@@ -48,7 +48,7 @@
 
     </style>
 
-    <style name="TextButton.Light" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
         <item name="android:textColor">@color/alert_dialog_button_color_light</item>
@@ -61,7 +61,7 @@
         <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
     </style>
 
-    <style name="Alert.Button.Positive" parent="TextButton.Light">
+    <style name="Alert.Button.Positive" parent="TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/alert_dialog_btn_ripple_color</item>
         <item name="android:textColor">@color/alert_dialog_button_color_light</item>
@@ -175,6 +175,9 @@
     <style name="AppTheme.BirthdayFragment.Name" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:autoSizeTextType" tools:targetApi="o">uniform</item>
+        <item name="android:autoSizeMinTextSize" tools:targetApi="o">16sp</item>
+        <item name="android:autoSizeMaxTextSize" tools:targetApi="o">24dp</item>
         <!--        <item name="android:textStyle">bold</item>-->
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
@@ -186,6 +189,16 @@
 
     <style name="AppTheme.BirthdayFragment.HeaderDivider" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="edit_birthday_base" parent="@style/Widget.AppCompat.EditText">
+
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:maxLength">@integer/max_length</item>
+        <item name="android:maxLines">@integer/max_lines</item>
     </style>
 
 

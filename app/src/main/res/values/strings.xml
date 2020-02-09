@@ -55,13 +55,21 @@
     <string name="december">December</string>
     <string name="fab_transformation_name">fab_transition</string>
     <string name="edit_birthday">Edit</string>
-    <string name="phone_description">Phone</string>
-    <string name="email_description">Email</string>
+    <string name="phone_description">Phone number</string>
+    <string name="email_descr">Email</string>
     <string name="back_arrow_descr">Back</string>
     <string name="telegram">Telegram</string>
     <string name="instagram_descr">Instagram</string>
     <string name="notes">Notes</string>
-    <string name="presents">Presents</string>
+    <string name="presents">Gifts</string>
     <string name="placeholder_title">For now the list is empty</string>
     <string name="placeholder_body">Add first birthday</string>
+    <string name="edit_name_hint">Name (required)</string>
+    <string name="edit_date_hint">Birthday date (required)</string>
+    <string name="edit_phone_number_hint">Phone number (optional)</string>
+    <string name="edit_telegram_hint">Telegram (optional)</string>
+    <string name="edit_instagram_hint">Instagram (optional)</string>
+    <string name="edit_email_hint">Email (optional)</string>
+    <string name="edit_notes_hint">Notes (optional)</string>
+    <string name="edit_gifts_hint">Gifts (optional)</string>
 </resources>

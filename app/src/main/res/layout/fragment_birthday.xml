@@ -9,6 +9,7 @@
     tools:context=".ui.BirthdayFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -16,11 +17,12 @@
 
 
         <LinearLayout
+            android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorSurface"
-            android:orientation="horizontal"
 
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -71,12 +73,16 @@
                 android:src="@drawable/ic_delete_24dp" />
         </LinearLayout>
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <include layout="@layout/fragment_birthday_content" />
-<!--        </ScrollView>-->
+        </ScrollView>
 
 
         <com.google.android.material.button.MaterialButton

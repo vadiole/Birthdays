@@ -40,7 +40,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         val birthdayDao =
-            BirthdayRoomDatabase.getDatabase(application, viewModelScope).birthdayDao()
+            BirthdayRoomDatabase.getDatabase(application).birthdayDao()
         repository = BirthdayRepository(birthdayDao)
 
         val allBirthdays = repository.allBirthdays

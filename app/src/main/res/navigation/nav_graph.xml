@@ -9,11 +9,21 @@
         android:id="@+id/birthdayFragment"
         android:name="vadiole.birthdays.ui.BirthdayFragment"
         android:label="fragment_birthday"
-        tools:layout="@layout/fragment_birthday" />
+        tools:layout="@layout/fragment_birthday">
+        <action
+            android:id="@+id/action_birthdayFragment_to_edit_birthday_fragment"
+            app:destination="@id/editBirthdayFragment"
+            app:enterAnim="@anim/nav_fade_enter"
+            app:exitAnim="@anim/nav_fade_exit"
+            app:popEnterAnim="@anim/nav_fade_pop_enter"
+            app:popExitAnim="@anim/nav_fade_pop_exit"
+            app:popUpTo="@+id/birthdayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainListFragment"
         android:name="vadiole.birthdays.ui.MainListFragment"
-        android:label="MainListFragment" >
+        android:label="MainListFragment"
+        tools:layout="@layout/fragment_main_list">
         <action
             android:id="@+id/action_mainListFragment_to_birthdayFragment"
             app:destination="@id/birthdayFragment"
@@ -24,4 +34,9 @@
             app:popExitAnim="@anim/nav_pop_exit"
             app:popUpTo="@+id/mainListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editBirthdayFragment"
+        android:name="vadiole.birthdays.ui.EditBirthdayFragment"
+        android:label="edit_birthday_fragment"
+        tools:layout="@layout/fragment_edit_birthday" />
 </navigation>
